@@ -1,0 +1,68 @@
+* {
+    background-color: burlywood;
+    color: whitesmoke;
+}
+
+h1 {
+    text-align: center;
+    font-family: 'Ubuntu Condensed', sans-serif;
+    font-size: 55px;
+    text-shadow: 2px 2px grey;
+}
+
+h2 {
+    font-family: 'East Sea Dokdo', cursive;
+    text-align: center;
+    font-size: 40px;
+    padding: 0;
+    margin: 0;
+    background: white;
+}
+
+.info {
+    font-family: 'Josefin Sans', sans-serif;
+    text-align: center;
+    font-size: 20px;
+    color: burlywood;
+    margin: 0;
+    padding: 0;
+    background: white;
+}
+
+img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 20px;
+    background: white;
+}
+
+.main {
+    text-align: center;
+}
+
+.stats {
+    display: inline-block;
+    vertical-align: top;
+    padding: 20px;
+    padding-left: 10px;
+    margin: 10px;
+    height: 220px;
+    width: 220px;
+    background: white;
+    border-radius: 20px;
+    box-sizing: border-box;
+}
+
+#temp {
+    color: orange;
+}
+#hum {
+    color: skyblue;
+}
+#pre {
+    color: yellowgreen;
+}
+#alti {
+    color: grey;
+}

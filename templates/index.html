@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Weather Station - {{server_name}}</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- <meta http-equiv="refresh" content="10"> -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+        <link rel="icon" type="image/x-icon" href="/static/fav.ico">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=East+Sea+Dokdo&family=Ubuntu+Condensed&family=Josefin+Sans&family=Seymour+One&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        <h1>{{server_name}} - Weather Station</h1><br>
+        <div class="main">
+            <div id="temperature" class="stats">
+                <img src="/static/weather-icon.png" alt="Weather Icon">
+                <h2 id="temp">Temperature</h2>
+                <p id="location" class="info">Outdoors: {{o_temp}}°C </p>
+                <p id="location" class="info">Indoors: {{temp}}°C </p>
+            </div>
+            <div id="humidity" class="stats">
+                <img src="/static/Humidity-icon.png" alt="Humidity Icon">
+                <h2 id="hum">Humidity</h2>
+                <p id="location" class="info">Outdoors: {{o_hu}}% </p>
+                <p id="location" class="info">Indoors: {{hu}}% </p>
+            </div>
+            <div id="pressure" class="stats">
+                <img src="/static/pressure-icon.png" alt="Pressure Icon">
+                <h2 id="pre">Pressure</h2>
+                <p id="location" class="info">Sea Level: {{o_pre}} hPa </p>
+                <p id="location" class="info">Indoors: {{pre}} hPa </p>
+            </div>
+            <div id="altitude" class="stats">
+                <img src="/static/mountain-icon.png" alt="mountain Icon">
+                <h2 id="alti">Altitude</h2>
+                <p id="location" class="info">Approx. Value</p>
+                <p id="location" class="info">{{alti}}m</p>
+            </div>
+        </div>
+    </body>
+</html>
