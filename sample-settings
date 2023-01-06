@@ -11,4 +11,4 @@ address = 0x76
 [Other]
 server_name = 
 db_file = 
-#Enter full path to db file
+#Enter full path to db file. File will be created if it does not exist.
