@@ -10,10 +10,14 @@
         <link rel="icon" type="image/x-icon" href="/static/fav.ico">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=East+Sea+Dokdo&family=Ubuntu+Condensed&family=Josefin+Sans&family=Seymour+One&display=swap" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
+        <link href="https://fonts.googleapis.com/css2?family=East+Sea+Dokdo&family=Merriweather+Sans:ital@1&family=Ubuntu+Condensed&family=Josefin+Sans:wght@400;700&family=Seymour+One&display=swap" rel="stylesheet">
     </head>
     <body>
-        <h1>{{server_name}} - Weather Station</h1><br>
+        <h1>{{server_name}} - Weather Station</h1>
+        <p id="info_text">Outdoor data via OpenWeatherMap API</p>
+        <p id="info_text">Indoor data via BME280 Sensor</p><br>
+        <p id="section">Current Stats</p>
         <div class="main">
             <div id="temperature" class="stats">
                 <img src="/static/weather-icon.png" alt="Weather Icon">
@@ -40,5 +44,155 @@
                 <p id="location" class="info">{{alti}}m</p>
             </div>
         </div>
+        <p id="section">Historical Data</p>
+        <div class="graphs">
+            <div id="chart"><canvas id="tempChart" width="300" height="300"></canvas></div>
+            <div id="chart"><canvas id="humChart" width="300" height="300"></canvas></div>
+            <div id="chart"><canvas id="presChart" width="300" height="300"></canvas></div>
+            <div id="chart"><canvas id="altiChart" width="300" height="300"></canvas></div>
+        </div>
+            <script>
+                var ctx = document.getElementById("tempChart").getContext("2d");
+                var tempChart = new Chart(ctx, {
+                    type: "line",
+                    data: {
+                        labels: {{ dates | safe }},
+                        datasets: [
+                            {
+                                label: "Outdoors",
+                                backgroundColor:"rgba(247,237,40, 0.6)",
+                                fillColor: "rgba(250,1,1,0.2)",
+                                strokeColor: "rgba(250,1,1,0.2)",
+                                pointColor: "rgba(250,1,1,0.2)",
+                                pointStrokeColor: "#eb0707",
+                                pointHighlightFill: "#eb0707",
+                                pointHighlightStroke: "rgba(220,220,220,1)",
+                                data: {{ owm_temps | safe }}
+                            },
+                            {
+                                label: "Indoors",
+                                backgroundColor:"rgba(247, 150, 40, 1)",
+                                fillColor: "rgba(151,187,205,0.2)",
+                                strokeColor: "rgba(151,187,205,1)",
+                                pointColor: "rgba(151,187,205,1)",
+                                pointStrokeColor: "#fff",
+                                pointHighlightFill: "#fff",
+                                pointHighlightStroke: "rgba(151,187,205,1)",
+                                data: {{ bme_temps | safe }}
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: false,
+                        title: {
+                            display: true,
+                            text: "Temperature (℃)"
+                        },
+                    }
+                });
+                var ctx = document.getElementById("humChart").getContext("2d");
+                var humChart = new Chart(ctx, {
+                    type: "line",
+                    data: {
+                        labels: {{ dates | safe }},
+                        datasets: [
+                            {
+                                label: "Outdoors",
+                                backgroundColor:"rgba(22, 150, 247, 1)",
+                                fillColor: "rgba(220,220,220,0.2)",
+                                strokeColor: "rgba(220,220,220,1)",
+                                pointColor: "rgba(220,220,220,1)",
+                                pointStrokeColor: "#fff",
+                                pointHighlightFill: "#fff",
+                                pointHighlightStroke: "rgba(220,220,220,1)",
+                                data: {{ owm_hums | safe }}
+                            },
+                            {
+                                label: "Indoors",
+                                backgroundColor:"rgba(74, 173, 247, 0.6)",
+                                fillColor: "rgba(151,187,205,0.2)",
+                                strokeColor: "rgba(151,187,205,1)",
+                                pointColor: "rgba(151,187,205,1)",
+                                pointStrokeColor: "#fff",
+                                pointHighlightFill: "#fff",
+                                pointHighlightStroke: "rgba(151,187,205,1)",
+                                data: {{ bme_hums | safe }}
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: false,
+                        title: {
+                            display: true,
+                            text: "Humidity (%)"
+                        },
+                    }
+                });
+                var ctx = document.getElementById("presChart").getContext("2d");
+                var presChart = new Chart(ctx, {
+                    type: "line",
+                    data: {
+                        labels: {{ dates | safe }},
+                        datasets: [
+                            {
+                                label: "Sea Level",
+                                backgroundColor:"rgba(131, 222, 27, 0.6)",
+                                fillColor: "rgba(220,220,220,0.2)",
+                                strokeColor: "rgba(220,220,220,1)",
+                                pointColor: "rgba(220,220,220,1)",
+                                pointStrokeColor: "#fff",
+                                pointHighlightFill: "#fff",
+                                pointHighlightStroke: "rgba(220,220,220,1)",
+                                data: {{ owm_pres | safe }}
+                            },
+                            {
+                                label: "Indoors",
+                                backgroundColor:"rgba(103, 191, 2, 1)",
+                                fillColor: "rgba(151,187,205,0.2)",
+                                strokeColor: "rgba(151,187,205,1)",
+                                pointColor: "rgba(151,187,205,1)",
+                                pointStrokeColor: "#fff",
+                                pointHighlightFill: "#fff",
+                                pointHighlightStroke: "rgba(151,187,205,1)",
+                                data: {{ bme_pres | safe }}
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: false,
+                        title: {
+                            display: true,
+                            text: "Pressure (hPa)"
+                        },
+                    }
+                });
+                var ctx = document.getElementById("altiChart").getContext("2d");
+                var altiChart = new Chart(ctx, {
+                    type: "line",
+                    data: {
+                        labels: {{ dates | safe }},
+                        datasets: [
+                            {
+                                label: "Approx. Altitude",
+                                backgroundColor:"rgba(102, 102, 102, 0.8)",
+                                fillColor: "rgba(220,220,220,0.2)",
+                                strokeColor: "rgba(220,220,220,1)",
+                                pointColor: "rgba(220,220,220,1)",
+                                pointStrokeColor: "#fff",
+                                pointHighlightFill: "#fff",
+                                pointHighlightStroke: "rgba(220,220,220,1)",
+                                data: {{ altis | safe }}
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: false,
+                        title: {
+                            display: true,
+                            text: "Altitude (m)"
+                        },
+                    }
+                });
+            </script>
     </body>
 </html>

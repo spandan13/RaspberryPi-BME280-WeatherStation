@@ -13,5 +13,5 @@ while True:
     humidity  = bme280_data.humidity
     pressure  = bme280_data.pressure
     ambient_temperature = bme280_data.temperature
-    print(f"Humidity = {humidity}\nPressure = {pressure}\nTemperature = {ambient_temperature}")
+    print(f"Humidity = {humidity}\nPressure = {pressure}\nTemperature = {ambient_temperature}\n")
     sleep(5)

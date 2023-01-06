@@ -8,6 +8,22 @@ h1 {
     font-family: 'Ubuntu Condensed', sans-serif;
     font-size: 55px;
     text-shadow: 2px 2px grey;
+    margin-bottom: 5px;
+}
+
+#info_text {
+    text-align: center;
+    margin: auto;
+    font-size: 20px;
+    color: rgb(86, 86, 86);
+}
+
+#section {
+    font-family: 'Merriweather Sans', sans-serif;
+    font-size: 35px;
+    text-shadow: 1px 1px grey;
+    text-align: center;
+    margin: 10px;
 }
 
 h2 {
@@ -39,13 +55,13 @@ img {
 
 .main {
     text-align: center;
+    padding-bottom: 20px;
 }
 
 .stats {
     display: inline-block;
     vertical-align: top;
     padding: 20px;
-    padding-left: 10px;
     margin: 10px;
     height: 220px;
     width: 220px;
@@ -65,4 +81,21 @@ img {
 }
 #alti {
     color: grey;
+}
+
+.graphs {
+    margin: auto;
+    text-align: center
+}
+
+canvas {
+    background: white;
+    border-radius: 20px;
+    padding: 20px;
+}
+
+#chart {
+    padding: 10px;
+    display: inline-block;
+    margin: auto;
 }
