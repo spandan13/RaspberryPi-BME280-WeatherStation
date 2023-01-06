@@ -1,3 +1,4 @@
 my*
 test*
-__pycache__
+settings
+__pycache__/
