@@ -3,14 +3,18 @@
 import sqlite3
 import weather_data
 import re
+import config
 from flask import Flask, render_template
 
-server_name = "OrbitSrv"
-
-conn = sqlite3.connect('/home/orbitsrv/Documents/code/bme280-web-app/my_weather.db', check_same_thread=False)
+server_name = config.server_name
+db_file = config.db_file
+conn = sqlite3.connect(db_file, check_same_thread=False)
 curs = conn.cursor()
 
 def parse_db():
+    """This function is not currenty being used but is here in case
+        you wish to pull results from the db instead of querying the
+        api and the sensor everytime you refresh the page"""
     for row in curs.execute("SELECT * FROM weather_data ORDER BY timestamp DESC LIMIT 1"):
         owm_temp = row[1]
         bme_temp = row[2]
@@ -19,7 +23,6 @@ def parse_db():
         owm_pressure = row[5]
         bme_pressure = row[6]
         altitude = row[7]
-    conn.close()
     return owm_humidity,owm_pressure,owm_temp,bme_humidity,bme_pressure,bme_temp,altitude
 
 def getHistData(numSamples):
@@ -27,7 +30,7 @@ def getHistData(numSamples):
         curs.execute("SELECT * FROM weather_data ORDER BY timestamp DESC LIMIT "+str(numSamples))
         data = curs.fetchall()
     except:
-        conn = sqlite3.connect('/home/orbitsrv/Documents/code/bme280-web-app/new_Weather.db', check_same_thread=False)
+        conn = sqlite3.connect(db_file, check_same_thread=False)
         curs = conn.cursor()
         curs.execute("SELECT * FROM weather_data ORDER BY timestamp DESC LIMIT "+str(numSamples))
         data = curs.fetchall()
@@ -66,6 +69,8 @@ app = Flask(__name__)
 @app.route("/")
 def index():
     owm_humidity,owm_pressure,owm_temp,bme_humidity,bme_pressure,bme_temp,altitude = weather_data.get_all_data()
+    # To use results from db, comment above line and uncomment below line
+    #owm_humidity,owm_pressure,owm_temp,bme_humidity,bme_pressure,bme_temp,altitude = parse_db()
     dates, owm_temps, bme_temps, owm_hums, bme_hums, owm_pres, bme_pres, altis = getHistData(numSamples)
     conn.close()
     return render_template("index.html",server_name=server_name,o_hu=owm_humidity,
@@ -75,4 +80,3 @@ def index():
                            bme_hums=bme_hums, owm_pres=owm_pres, bme_pres=bme_pres, altis=altis)
 
 app.run(host="0.0.0.0", port=6162)
-

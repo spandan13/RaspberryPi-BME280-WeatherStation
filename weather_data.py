@@ -2,17 +2,18 @@ import bme280
 import smbus2
 import requests
 import math
+import config
 
-# Config for BME280 Sensor
-port = 2
-address = 0x76 # Adafruit BME280 address. Other BME280s may be different
+# Config for BME280 Sensor. Modify in settings file
+port = config.port
+address = config.address
 bus = smbus2.SMBus(port)
 bme280.load_calibration_params(bus,address)
 
-# Config for OpenWeatherMap API
-lat = "19.367738"
-lon = "72.7965333"
-api_key = "e6ab838e58e11e0a698c0a606a42d0ae"
+# Config for OpenWeatherMap API. Modify in settings file
+lat = config.lat
+lon = config.lon
+api_key = config.api_key
 
 def bme_data():
     bme280_data = bme280.sample(bus,address)
