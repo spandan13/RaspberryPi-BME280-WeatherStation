@@ -1,0 +1,14 @@
+[OpenWeatherMap]
+lat = 
+lon = 
+api_key = 
+
+[bme_sensor]
+port = 1
+address = 0x76
+#Adafruit BME280 address. Other BME280s may be different
+
+[Other]
+server_name = 
+db_file = 
+#Enter full path to db file
