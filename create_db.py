@@ -1,7 +1,7 @@
 import sqlite3
 import sys
 import config
-con = sqlite3.connect('testFinalWeather.db')
+con = sqlite3.connect(config.db_file)
 with con: 
     cur = con.cursor() 
     cur.execute("DROP TABLE IF EXISTS weather_data")
