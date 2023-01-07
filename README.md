@@ -12,7 +12,7 @@
 ***
 ## *Requirements:*
 
-![bme280 sensor](https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcR191iieVz\_yamndGJp\_p8cCfGT2v6\_lrN92q0hUDM7uSLTt-poiQyMqzuQI2q0vhhpj\_YdWtWsAg&usqp=CAc)
+![bme280 sensor](https://i.imgur.com/pIHbhJM.png)
 BME280 Sensor
 
 RaspberryPi Zero/2 W, 3,4
