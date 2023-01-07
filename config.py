@@ -15,4 +15,5 @@ address = ast.literal_eval(bme_config['address'])
 
 other = config['Other']
 server_name = other['server_name']
+server_port = int(other['server_port'])
 db_file = other['db_file']

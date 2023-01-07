@@ -7,6 +7,7 @@ import config
 from flask import Flask, render_template
 
 server_name = config.server_name
+server_port = config.server_port
 db_file = config.db_file
 conn = sqlite3.connect(db_file, check_same_thread=False)
 curs = conn.cursor()
@@ -79,4 +80,4 @@ def index():
                            dates=dates, owm_temps=owm_temps, bme_temps=bme_temps, owm_hums=owm_hums,
                            bme_hums=bme_hums, owm_pres=owm_pres, bme_pres=bme_pres, altis=altis)
 
-app.run(host="0.0.0.0", port=6162)
+app.run(host="0.0.0.0", port=server_port)
