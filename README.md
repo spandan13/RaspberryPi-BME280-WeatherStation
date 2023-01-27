@@ -2,7 +2,7 @@
     RaspberryPi-BME280-WeatherStation
 
   <br>
-  <img src="https://i.imgur.com/2Lwfekl.png" alt="dashboard"></a>
+  <img src="https://i.imgur.com/FLpncrp.png" alt="dashboard"></a>
   <br>
 </h1>
 
