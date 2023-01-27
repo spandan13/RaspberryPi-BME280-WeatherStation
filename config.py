@@ -4,10 +4,10 @@ import ast
 config = configparser.ConfigParser()
 config.read("settings")
 
-owm_config = config['OpenWeatherMap']
-lat = owm_config['lat']
-lon = owm_config['lon']
-api_key = owm_config['api_key']
+wapi_config = config['WeatherAPI']
+lat = wapi_config['lat']
+lon = wapi_config['lon']
+api_key = wapi_config['api_key']
 
 bme_config = config['bme_sensor']
 port = int(bme_config['port'])

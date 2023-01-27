@@ -15,7 +15,7 @@
     </head>
     <body>
         <h1>{{server_name}} - Weather Station</h1>
-        <p id="info_text">Outdoor data via OpenWeatherMap API</p>
+        <p id="info_text">Outdoor data via WeatherAPI</p>
         <p id="info_text">Indoor data via BME280 Sensor</p><br>
         <p id="section">Current Stats</p>
         <div class="main">
@@ -38,10 +38,10 @@
                 <p id="location" class="info">Indoors: {{pre}} hPa </p>
             </div>
             <div id="altitude" class="stats">
-                <img src="/static/mountain-icon.png" alt="mountain Icon">
-                <h2 id="alti">Altitude</h2>
-                <p id="location" class="info">Approx. Value</p>
-                <p id="location" class="info">{{alti}}m</p>
+                <img src="/static/wind-icon.png" alt="mountain Icon">
+                <h2 id="alti">Wind Speed</h2>
+                <p id="location" class="info">Direction: {{o_wind_dir}}</p>
+                <p id="location" class="info">{{o_wind}} km/h</p>
             </div>
         </div>
         <p id="section">Historical Data</p>
@@ -49,7 +49,7 @@
             <div id="chart"><canvas id="tempChart" width="300" height="300"></canvas></div>
             <div id="chart"><canvas id="humChart" width="300" height="300"></canvas></div>
             <div id="chart"><canvas id="presChart" width="300" height="300"></canvas></div>
-            <div id="chart"><canvas id="altiChart" width="300" height="300"></canvas></div>
+            <div id="chart"><canvas id="windChart" width="300" height="300"></canvas></div>
         </div>
             <script>
                 var ctx = document.getElementById("tempChart").getContext("2d");
@@ -67,7 +67,7 @@
                                 pointStrokeColor: "#eb0707",
                                 pointHighlightFill: "#eb0707",
                                 pointHighlightStroke: "rgba(220,220,220,1)",
-                                data: {{ owm_temps | safe }}
+                                data: {{ wapi_temps | safe }}
                             },
                             {
                                 label: "Indoors",
@@ -105,7 +105,7 @@
                                 pointStrokeColor: "#fff",
                                 pointHighlightFill: "#fff",
                                 pointHighlightStroke: "rgba(220,220,220,1)",
-                                data: {{ owm_hums | safe }}
+                                data: {{ wapi_hums | safe }}
                             },
                             {
                                 label: "Indoors",
@@ -143,7 +143,7 @@
                                 pointStrokeColor: "#fff",
                                 pointHighlightFill: "#fff",
                                 pointHighlightStroke: "rgba(220,220,220,1)",
-                                data: {{ owm_pres | safe }}
+                                data: {{ wapi_pres | safe }}
                             },
                             {
                                 label: "Indoors",
@@ -166,14 +166,14 @@
                         },
                     }
                 });
-                var ctx = document.getElementById("altiChart").getContext("2d");
-                var altiChart = new Chart(ctx, {
+                var ctx = document.getElementById("windChart").getContext("2d");
+                var windChart = new Chart(ctx, {
                     type: "line",
                     data: {
                         labels: {{ dates | safe }},
                         datasets: [
                             {
-                                label: "Approx. Altitude",
+                                label: "Wind Speed",
                                 backgroundColor:"rgba(102, 102, 102, 0.8)",
                                 fillColor: "rgba(220,220,220,0.2)",
                                 strokeColor: "rgba(220,220,220,1)",
@@ -181,7 +181,7 @@
                                 pointStrokeColor: "#fff",
                                 pointHighlightFill: "#fff",
                                 pointHighlightStroke: "rgba(220,220,220,1)",
-                                data: {{ altis | safe }}
+                                data: {{ wapi_winds | safe }}
                             }
                         ]
                     },
@@ -189,7 +189,7 @@
                         responsive: false,
                         title: {
                             display: true,
-                            text: "Altitude (m)"
+                            text: "Wind (Km/h)"
                         },
                     }
                 });

@@ -23,17 +23,18 @@ def bme_data():
     
     return humidity, pressure, ambient_temperature
 
-def owm_data():
-    weather_data = requests.get(f"https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={api_key}").json()
-    temp = (int(weather_data['main']['temp']-273.15))
-    pressure = (int(weather_data['main']['pressure']))
-    humidity = (int(weather_data['main']['humidity']))
+def wapi_data():
+    weather_data = requests.get(f"https://api.weatherapi.com/v1/current.json?key={api_key}&q={lat},{lon}&aqi=yes").json()
+    temp = int(weather_data['current']['temp_c'])
+    pressure = int(weather_data['current']['pressure_mb'])
+    humidity = int(weather_data['current']['humidity'])
+    wind = int(weather_data['current']['wind_kph'])
+    wind_dir = weather_data['current']['wind_dir']
     
-    return humidity, pressure, temp
+    return humidity, pressure, temp, wind, wind_dir
 
 def get_all_data():
-    owm_humidity,owm_pressure,owm_temp = owm_data()
+    wapi_humidity,wapi_pressure,wapi_temp,wapi_wind,wapi_wind_dir = wapi_data()
     bme_humidity,bme_pressure,bme_temp = bme_data()
-    altitude = 44330 * (1.0 - math.pow(bme_pressure / owm_pressure, 0.1903))
     
-    return owm_humidity,owm_pressure,owm_temp,bme_humidity,bme_pressure,bme_temp,altitude
+    return wapi_humidity,wapi_pressure,wapi_temp,wapi_wind,wapi_wind_dir,bme_humidity,bme_pressure,bme_temp
