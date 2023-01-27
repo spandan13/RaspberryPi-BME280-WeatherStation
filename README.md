@@ -2,7 +2,7 @@
     RaspberryPi-BME280-WeatherStation
 
   <br>
-  <img src="https://i.imgur.com/2Lwfekl.png" alt="dashboard"></a>
+  <img src="https://i.imgur.com/FLpncrp.png" alt="dashboard"></a>
   <br>
 </h1>
 
@@ -18,7 +18,7 @@ BME280 Sensor
 RaspberryPi Zero/2 W, 3,4
 (Not yet tested on Pi 1,2 but should work I guess?)
 
-[OpenWeatherMap API](https://home.openweathermap.org/api\_keys)
+[WeatherAPI](https://www.weatherapi.com/)
 ***
 ## *Set-up:*
 
