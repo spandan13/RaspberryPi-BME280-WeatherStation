@@ -99,3 +99,18 @@ canvas {
     display: inline-block;
     margin: auto;
 }
+
+button {
+    transition-duration: 0.4s;
+    background-color: white;
+    color: grey;
+    padding: 5px;
+    border: 2px solid rgb(247,237,40);
+    border-radius: 8px;
+    text-align: center
+  }
+
+button:hover {
+    background-color: rgb(247,237,40); /* Green */
+    color: black;
+}

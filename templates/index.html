@@ -11,6 +11,7 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
         <link href="https://fonts.googleapis.com/css2?family=East+Sea+Dokdo&family=Merriweather+Sans:ital@1&family=Ubuntu+Condensed&family=Josefin+Sans:wght@400;700&family=Seymour+One&display=swap" rel="stylesheet">
     </head>
     <body>
@@ -46,50 +47,159 @@
         </div>
         <p id="section">Historical Data</p>
         <div class="graphs">
-            <div id="chart"><canvas id="tempChart" width="300" height="300"></canvas></div>
+            <div id="chart">
+                <canvas id="tempChart" width="300" height="300"></canvas>
+                <button onclick="timeFrame(this)" value="daily_data">Daily</button>
+                <button onclick="timeFrame(this)" value="week_data">Weekly</button>
+                <button onclick="timeFrame(this)" value="month_data">Monthly</button>
+            </div>
             <div id="chart"><canvas id="humChart" width="300" height="300"></canvas></div>
             <div id="chart"><canvas id="presChart" width="300" height="300"></canvas></div>
             <div id="chart"><canvas id="windChart" width="300" height="300"></canvas></div>
         </div>
             <script>
-                var ctx = document.getElementById("tempChart").getContext("2d");
-                var tempChart = new Chart(ctx, {
-                    type: "line",
-                    data: {
-                        labels: {{ dates | safe }},
-                        datasets: [
-                            {
-                                label: "Outdoors",
-                                backgroundColor:"rgba(247,237,40, 0.6)",
-                                fillColor: "rgba(250,1,1,0.2)",
-                                strokeColor: "rgba(250,1,1,0.2)",
-                                pointColor: "rgba(250,1,1,0.2)",
-                                pointStrokeColor: "#eb0707",
-                                pointHighlightFill: "#eb0707",
-                                pointHighlightStroke: "rgba(220,220,220,1)",
-                                data: {{ wapi_temps | safe }}
-                            },
-                            {
-                                label: "Indoors",
-                                backgroundColor:"rgba(247, 150, 40, 1)",
-                                fillColor: "rgba(151,187,205,0.2)",
-                                strokeColor: "rgba(151,187,205,1)",
-                                pointColor: "rgba(151,187,205,1)",
-                                pointStrokeColor: "#fff",
-                                pointHighlightFill: "#fff",
-                                pointHighlightStroke: "rgba(151,187,205,1)",
-                                data: {{ bme_temps | safe }}
-                            }
-                        ]
-                    },
-                    options: {
+                const today_data = {
+                    labels: {{ dates | safe}},
+                    datasets: [
+                        {
+                        label: "Outdoors",
+                        data: {{ wapi_temps | safe }},
+                        // data: day,
+                        backgroundColor: "rgba(247,237,40, 0.6)"
+                        },
+                        {
+                        label: "Indoors",
+                        data: {{ bme_temps | safe }},
+                        // data: day,
+                        backgroundColor:"rgba(247, 150, 40, 1)"
+                        }]
+                };
+
+                const daily_data = {
+                    labels: {{ daily | safe}},
+                    datasets: [
+                        {
+                        label: "Outdoors",
+                        data: {{ daily_wapi_avgs | safe }},
+                        // data: day,
+                        backgroundColor: "rgba(247,237,40, 0.6)"
+                        },
+                        {
+                        label: "Indoors",
+                        data: {{ daily_bme_avgs | safe }},
+                        // data: day,
+                        backgroundColor:"rgba(247, 150, 40, 1)"
+                        }]
+                };
+
+                const week_data = {
+                    labels: {{ week | safe}},
+                    datasets: [
+                        {
+                        label: "Outdoors",
+                        data: {{ week_wapi_avg | safe }},
+                        // data: day,
+                        backgroundColor: "rgba(247,237,40, 0.6)"
+                        },
+                        {
+                        label: "Indoors",
+                        data: {{ week_bme_avg | safe }},
+                        // data: day,
+                        backgroundColor:"rgba(247, 150, 40, 1)"
+                        }]
+                };
+
+                const month_data = {
+                    labels: {{ month | safe}},
+                    datasets: [
+                        {
+                        label: "Outdoors",
+                        data: {{ month_wapi_avg | safe }},
+                        // data: day,
+                        backgroundColor: "rgba(247,237,40, 0.6)"
+                        },
+                        {
+                        label: "Indoors",
+                        data: {{ month_bme_avg | safe }},
+                        // data: day,
+                        backgroundColor:"rgba(247, 150, 40, 1)"
+                        }]
+                };
+
+                const config = {
+                    type: 'line',
+                    data: today_data,
+                    options:{
+                        scales: {
+                            xAxes: [{
+                                ticks: {
+                                    display: true //this will remove only the label
+                                }
+                            }]
+                        },
                         responsive: false,
                         title: {
                             display: true,
                             text: "Temperature (℃)"
-                        },
+                        }
                     }
-                });
+                };
+
+                const myChart = new Chart(document.getElementById("tempChart").getContext("2d"), config);
+
+                function timeFrame(period){
+                    if(period.value == 'daily_data') {
+                        myChart.config.data = daily_data;
+                    }
+                    if(period.value == 'week_data') {
+                        myChart.config.data = week_data;
+                    }
+                    if(period.value == 'month_data') {
+                        myChart.config.data = month_data;
+                    }
+                    myChart.config.options.scales.xAxes[0].ticks.display = false;
+                    myChart.update();
+                }
+
+
+                // var ctx = document.getElementById("tempChart").getContext("2d");
+                // var tempChart = new Chart(ctx, {
+                //     type: "line",
+                //     data: {
+                //         labels: {{ dates | safe }},
+                //         datasets: [
+                //             {
+                //                 label: "Outdoors",
+                //                 backgroundColor:"rgba(247,237,40, 0.6)",
+                //                 fillColor: "rgba(250,1,1,0.2)",
+                //                 strokeColor: "rgba(250,1,1,0.2)",
+                //                 pointColor: "rgba(250,1,1,0.2)",
+                //                 pointStrokeColor: "#eb0707",
+                //                 pointHighlightFill: "#eb0707",
+                //                 pointHighlightStroke: "rgba(220,220,220,1)",
+                //                 data: {{ wapi_temps | safe }}
+                //             },
+                //             {
+                //                 label: "Indoors",
+                //                 backgroundColor:"rgba(247, 150, 40, 1)",
+                //                 fillColor: "rgba(151,187,205,0.2)",
+                //                 strokeColor: "rgba(151,187,205,1)",
+                //                 pointColor: "rgba(151,187,205,1)",
+                //                 pointStrokeColor: "#fff",
+                //                 pointHighlightFill: "#fff",
+                //                 pointHighlightStroke: "rgba(151,187,205,1)",
+                //                 data: {{ bme_temps | safe }}
+                //             }
+                //         ]
+                //     },
+                //     options: {
+                //         responsive: false,
+                //         title: {
+                //             display: true,
+                //             text: "Temperature (℃)"
+                //         },
+                //     }
+                // });
                 var ctx = document.getElementById("humChart").getContext("2d");
                 var humChart = new Chart(ctx, {
                     type: "line",
