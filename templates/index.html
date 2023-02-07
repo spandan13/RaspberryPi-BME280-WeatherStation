@@ -64,13 +64,11 @@
                         {
                         label: "Outdoors",
                         data: {{ wapi_temps | safe }},
-                        // data: day,
                         backgroundColor: "rgba(247,237,40, 0.6)"
                         },
                         {
                         label: "Indoors",
                         data: {{ bme_temps | safe }},
-                        // data: day,
                         backgroundColor:"rgba(247, 150, 40, 1)"
                         }]
                 };
@@ -80,14 +78,12 @@
                     datasets: [
                         {
                         label: "Outdoors",
-                        data: {{ daily_wapi_avgs | safe }},
-                        // data: day,
+                        data: {{ daily_wapi_temp_avgs | safe }},
                         backgroundColor: "rgba(247,237,40, 0.6)"
                         },
                         {
                         label: "Indoors",
-                        data: {{ daily_bme_avgs | safe }},
-                        // data: day,
+                        data: {{ daily_bme_temp_avgs | safe }},
                         backgroundColor:"rgba(247, 150, 40, 1)"
                         }]
                 };
@@ -97,14 +93,12 @@
                     datasets: [
                         {
                         label: "Outdoors",
-                        data: {{ week_wapi_avg | safe }},
-                        // data: day,
+                        data: {{ week_wapi_temp_avg | safe }},
                         backgroundColor: "rgba(247,237,40, 0.6)"
                         },
                         {
                         label: "Indoors",
-                        data: {{ week_bme_avg | safe }},
-                        // data: day,
+                        data: {{ week_bme_temp_avg | safe }},
                         backgroundColor:"rgba(247, 150, 40, 1)"
                         }]
                 };
@@ -114,14 +108,12 @@
                     datasets: [
                         {
                         label: "Outdoors",
-                        data: {{ month_wapi_avg | safe }},
-                        // data: day,
+                        data: {{ month_wapi_temp_avg | safe }},
                         backgroundColor: "rgba(247,237,40, 0.6)"
                         },
                         {
                         label: "Indoors",
-                        data: {{ month_bme_avg | safe }},
-                        // data: day,
+                        data: {{ month_bme_temp_avg | safe }},
                         backgroundColor:"rgba(247, 150, 40, 1)"
                         }]
                 };
@@ -133,7 +125,7 @@
                         scales: {
                             xAxes: [{
                                 ticks: {
-                                    display: true //this will remove only the label
+                                    display: true
                                 }
                             }]
                         },
