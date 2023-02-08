@@ -60,7 +60,7 @@
         </div>
             <script>
                 var dates = {{ dates | safe }};
-                const today_temp_data = {
+                const temp_data = {
                     labels: dates,
                     datasets: [
                         {
@@ -74,51 +74,9 @@
                         backgroundColor:"rgba(247, 150, 40, 1)"
                         }]
                 };
-                const daily_temp_data = {
-                    labels: {{ daily | safe}},
-                    datasets: [
-                        {
-                        label: "Outdoors",
-                        data: {{ daily_wapi_temp_avgs | safe }},
-                        backgroundColor: "rgba(247,237,40, 0.6)"
-                        },
-                        {
-                        label: "Indoors",
-                        data: {{ daily_bme_temp_avgs | safe }},
-                        backgroundColor:"rgba(247, 150, 40, 1)"
-                        }]
-                };
-                const week_temp_data = {
-                    labels: {{ week | safe}},
-                    datasets: [
-                        {
-                        label: "Outdoors",
-                        data: {{ week_wapi_temp_avg | safe }},
-                        backgroundColor: "rgba(247,237,40, 0.6)"
-                        },
-                        {
-                        label: "Indoors",
-                        data: {{ week_bme_temp_avg | safe }},
-                        backgroundColor:"rgba(247, 150, 40, 1)"
-                        }]
-                };
-                const month_temp_data = {
-                    labels: {{ month | safe}},
-                    datasets: [
-                        {
-                        label: "Outdoors",
-                        data: {{ month_wapi_temp_avg | safe }},
-                        backgroundColor: "rgba(247,237,40, 0.6)"
-                        },
-                        {
-                        label: "Indoors",
-                        data: {{ month_bme_temp_avg | safe }},
-                        backgroundColor:"rgba(247, 150, 40, 1)"
-                        }]
-                };
                 const config_temp = {
                     type: 'line',
-                    data: today_temp_data,
+                    data: temp_data,
                     options:{
                         scales: {
                             xAxes: [{
@@ -136,7 +94,7 @@
                 };
                 const myTempChart = new Chart(document.getElementById("tempChart").getContext("2d"),config_temp);
                 
-                const today_hum_data = {
+                const hum_data = {
                     labels: dates,
                     datasets: [
                         {
@@ -150,51 +108,9 @@
                         backgroundColor:"rgba(74, 173, 247, 0.6)"
                         }]
                 };
-                const daily_hum_data = {
-                    labels: {{ daily | safe }},
-                    datasets: [
-                        {
-                        label: "Outdoors",
-                        data: {{ daily_wapi_hum_avgs | safe }},
-                        backgroundColor: "rgba(22, 150, 247, 1)"
-                        },
-                        {
-                        label: "Indoors",
-                        data: {{ daily_bme_hum_avgs | safe }},
-                        backgroundColor:"rgba(74, 173, 247, 0.6)"
-                        }]
-                };
-                const week_hum_data = {
-                    labels: {{ week | safe }},
-                    datasets: [
-                        {
-                        label: "Outdoors",
-                        data: {{ week_wapi_hum_avg | safe }},
-                        backgroundColor:"rgba(22, 150, 247, 1)"
-                        },
-                        {
-                        label: "Indoors",
-                        data: {{ week_bme_hum_avg | safe }},
-                        backgroundColor:"rgba(74, 173, 247, 0.6)"
-                        }]
-                };
-                const month_hum_data = {
-                    labels: {{ month | safe }},
-                    datasets: [
-                        {
-                        label: "Outdoors",
-                        data: {{ month_wapi_hum_avg | safe }},
-                        backgroundColor:"rgba(22, 150, 247, 1)"
-                        },
-                        {
-                        label: "Indoors",
-                        data: {{ month_bme_hum_avg | safe }},
-                        backgroundColor:"rgba(74, 173, 247, 0.6)"
-                        }]
-                };
                 const config_hum = {
                     type: 'line',
-                    data: today_hum_data,
+                    data: hum_data,
                     options:{
                         scales: {
                             xAxes: [{
@@ -212,7 +128,7 @@
                 };
                 const myHumChart = new Chart(document.getElementById("humChart").getContext("2d"),config_hum);
 
-                const today_pres_data = {
+                const pres_data = {
                     labels: dates,
                     datasets: [
                         {
@@ -227,54 +143,9 @@
                         }
                     ]
                 };
-                const daily_pres_data = {
-                    labels: {{ daily | safe }},
-                    datasets: [
-                        {
-                            label: "Sea Level",
-                            data: {{ daily_wapi_pres_avgs | safe }},
-                            backgroundColor:"rgba(131, 222, 27, 0.6)",
-                        },
-                        {
-                            label: "Indoors",
-                            data: {{ daily_bme_pres_avgs | safe }},
-                            backgroundColor:"rgba(103, 191, 2, 1)",
-                        }
-                    ]
-                };
-                const week_pres_data = {
-                    labels: {{ week | safe }},
-                    datasets: [
-                        {
-                            label: "Sea Level",
-                            data: {{ week_wapi_pres_avg | safe }},
-                            backgroundColor:"rgba(131, 222, 27, 0.6)",
-                        },
-                        {
-                            label: "Indoors",
-                            data: {{ week_bme_pres_avg | safe }},
-                            backgroundColor:"rgba(103, 191, 2, 1)",
-                        }
-                    ]
-                };
-                const month_pres_data = {
-                    labels: {{ month | safe }},
-                    datasets: [
-                        {
-                            label: "Sea Level",
-                            data: {{ month_wapi_pres_avg | safe }},
-                            backgroundColor:"rgba(131, 222, 27, 0.6)",
-                        },
-                        {
-                            label: "Indoors",
-                            data: {{ month_bme_pres_avg | safe }},
-                            backgroundColor:"rgba(103, 191, 2, 1)",
-                        }
-                    ]
-                };
                 const config_pres = {
                     type: 'line',
-                    data: today_pres_data,
+                    data: pres_data,
                     options:{
                         scales: {
                             xAxes: [{
@@ -302,36 +173,6 @@
                         }
                     ]
                 };
-                const daily_wind_data = {
-                    labels: {{ daily | safe }},
-                    datasets: [
-                        {
-                            label: "Wind Speed",
-                            data: {{ daily_wind_maxs | safe }},
-                            backgroundColor:"rgba(102, 102, 102, 0.8)",
-                        }
-                    ]
-                };
-                const week_wind_data = {
-                    labels: {{ week | safe }},
-                    datasets: [
-                        {
-                            label: "Wind Speed",
-                            data: {{ week_wapi_wind | safe }},
-                            backgroundColor:"rgba(102, 102, 102, 0.8)",
-                        }
-                    ]
-                };
-                const month_wind_data = {
-                    labels: {{ month | safe }},
-                    datasets: [
-                        {
-                            label: "Wind Speed",
-                            data: {{ month_wapi_wind_max | safe }},
-                            backgroundColor:"rgba(102, 102, 102, 0.8)",
-                        }
-                    ]
-                };
                 const config_wind = {
                     type: 'line',
                     data: today_wind_data,
@@ -354,50 +195,61 @@
                 
                 function timeFrame(period){
                     if(period.value == 'today_data') {
-                        myTempChart.config.data = today_temp_data;
-                        myHumChart.config.data = today_hum_data;
-                        myPresChart.config.data = today_pres_data;
-                        myWindChart.config.data = today_wind_data;
-                        myTempChart.config.options.scales.xAxes[0].ticks.display = true;
-                        myHumChart.config.options.scales.xAxes[0].ticks.display = true;
-                        myPresChart.config.options.scales.xAxes[0].ticks.display = true;
-                        myWindChart.config.options.scales.xAxes[0].ticks.display = true;
+                        myTempChart.config.data.datasets[0].data = {{ wapi_temps | safe }};
+                        myTempChart.config.data.datasets[1].data = {{ bme_temps | safe }};
+                        myHumChart.config.data.datasets[0].data = {{ wapi_hums | safe }};
+                        myHumChart.config.data.datasets[1].data = {{ bme_hums | safe }};
+                        myPresChart.config.data.datasets[0].data = {{ wapi_pres | safe }};
+                        myPresChart.config.data.datasets[1].data = {{ bme_pres | safe }};
+                        myWindChart.config.data.datasets[0].data = {{ wapi_winds | safe }};
+                        [myTempChart, myHumChart, myPresChart, myWindChart].forEach(chart => {
+                            chart.config.data.labels = dates;
+                            chart.config.options.scales.xAxes[0].ticks.display = true;
+                        });
                     }
                     if(period.value == 'daily_data') {
-                        myTempChart.config.data = daily_temp_data;
-                        myHumChart.config.data = daily_hum_data;
-                        myPresChart.config.data = daily_pres_data;
-                        myWindChart.config.data = daily_wind_data;
-                        myTempChart.config.options.scales.xAxes[0].ticks.display = false;
-                        myHumChart.config.options.scales.xAxes[0].ticks.display = false;
-                        myPresChart.config.options.scales.xAxes[0].ticks.display = false;
-                        myWindChart.config.options.scales.xAxes[0].ticks.display = false;
+                        myTempChart.config.data.datasets[0].data = {{ daily_wapi_temp_avgs | safe }};
+                        myTempChart.config.data.datasets[1].data = {{ daily_bme_temp_avgs | safe }};
+                        myHumChart.config.data.datasets[0].data = {{ daily_wapi_hum_avgs | safe }};
+                        myHumChart.config.data.datasets[1].data = {{ daily_bme_hum_avgs | safe }};
+                        myPresChart.config.data.datasets[0].data = {{ daily_wapi_pres_avgs | safe }};
+                        myPresChart.config.data.datasets[1].data = {{ daily_bme_pres_avgs | safe }};
+                        myWindChart.config.data.datasets[0].data = {{ daily_wind_maxs | safe }};
+                        [myTempChart, myHumChart, myPresChart, myWindChart].forEach(chart => {
+                            chart.config.data.labels = {{ daily | safe }};
+                            chart.config.options.scales.xAxes[0].ticks.display = false;
+                        });
                     }
                     if(period.value == 'week_data') {
-                        myTempChart.config.data = week_temp_data;
-                        myHumChart.config.data = week_hum_data;
-                        myPresChart.config.data = week_pres_data;
-                        myWindChart.config.data = week_wind_data;
-                        myTempChart.config.options.scales.xAxes[0].ticks.display = false;
-                        myHumChart.config.options.scales.xAxes[0].ticks.display = false;
-                        myPresChart.config.options.scales.xAxes[0].ticks.display = false;
-                        myWindChart.config.options.scales.xAxes[0].ticks.display = false;
+                        myTempChart.config.data.datasets[0].data = {{ week_wapi_temp_avg | safe }};
+                        myTempChart.config.data.datasets[1].data = {{ week_bme_temp_avg | safe }};
+                        myHumChart.config.data.datasets[0].data = {{ week_wapi_hum_avg | safe }};
+                        myHumChart.config.data.datasets[1].data = {{ week_bme_hum_avg | safe }};
+                        myPresChart.config.data.datasets[0].data = {{ week_wapi_pres_avg | safe }};
+                        myPresChart.config.data.datasets[1].data = {{ week_bme_pres_avg | safe }};
+                        myWindChart.config.data.datasets[0].data = {{ week_wapi_wind | safe }};
+                        [myTempChart, myHumChart, myPresChart, myWindChart].forEach(chart => {
+                            chart.config.data.labels = {{ week | safe}};
+                            chart.config.options.scales.xAxes[0].ticks.display = false;
+                        });
                     }
                     if(period.value == 'month_data') {
-                        myTempChart.config.data = month_temp_data;
-                        myHumChart.config.data = month_hum_data;
-                        myPresChart.config.data = month_pres_data;
-                        myWindChart.config.data = month_wind_data;
-                        myTempChart.config.options.scales.xAxes[0].ticks.display = false;
-                        myHumChart.config.options.scales.xAxes[0].ticks.display = false;
-                        myPresChart.config.options.scales.xAxes[0].ticks.display = false;
-                        myWindChart.config.options.scales.xAxes[0].ticks.display = false;
+                        myTempChart.config.data.datasets[0].data = {{ month_wapi_temp_avg | safe }};
+                        myTempChart.config.data.datasets[1].data = {{ month_bme_temp_avg | safe }};
+                        myHumChart.config.data.datasets[0].data = {{ month_wapi_hum_avg | safe }};
+                        myHumChart.config.data.datasets[1].data = {{ month_bme_hum_avg | safe }};
+                        myPresChart.config.data.datasets[0].data = {{ month_wapi_pres_avg | safe }};
+                        myPresChart.config.data.datasets[1].data = {{ month_bme_pres_avg | safe }};
+                        myWindChart.config.data.datasets[0].data = {{ month_wapi_wind_max | safe }};
+                        [myTempChart, myHumChart, myPresChart, myWindChart].forEach(chart => {
+                            chart.config.data.labels = {{ month | safe}};
+                            chart.config.options.scales.xAxes[0].ticks.display = false;
+                        });
                     }
                     [myTempChart, myHumChart, myPresChart, myWindChart].forEach(chart => {
                             chart.update();
                         });
                 }
-
             </script>
     </body>
 </html>
