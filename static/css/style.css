@@ -115,10 +115,14 @@ button {
     padding: 10px;
     border: 1px solid grey;
     border-radius: 12px;
-    text-align: center
+    text-align: center;
+    cursor: pointer;
 }
-
 button:hover {
     background-color: rgb(247,237,40); /* Green */
     color: black;
+}
+button:active {
+  background-color: yellow;
+  transform: translateY(4px);
 }
