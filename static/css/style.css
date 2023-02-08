@@ -100,15 +100,23 @@ canvas {
     margin: auto;
 }
 
+#histButtons {
+    text-align: center;
+    padding-top: 5px;
+    padding-bottom: 10px;
+}
+
 button {
-    transition-duration: 0.4s;
+    width: 80px;
+    font-size: 15px;
+    transition-duration: 0.5s;
     background-color: white;
     color: grey;
-    padding: 5px;
-    border: 2px solid rgb(247,237,40);
-    border-radius: 8px;
+    padding: 10px;
+    border: 1px solid grey;
+    border-radius: 12px;
     text-align: center
-  }
+}
 
 button:hover {
     background-color: rgb(247,237,40); /* Green */

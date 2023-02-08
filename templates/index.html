@@ -46,20 +46,22 @@
             </div>
         </div>
         <p id="section">Historical Data</p>
+        <div id="histButtons">
+            <button onclick="timeFrame(this)" value="today_data">Today</button>
+            <button onclick="timeFrame(this)" value="daily_data">Daily</button>
+            <button onclick="timeFrame(this)" value="week_data">Weekly</button>
+            <button onclick="timeFrame(this)" value="month_data">Monthly</button>
+        </div>
         <div class="graphs">
-            <div id="chart">
-                <canvas id="tempChart" width="300" height="300"></canvas>
-                <button onclick="timeFrame(this)" value="daily_data">Daily</button>
-                <button onclick="timeFrame(this)" value="week_data">Weekly</button>
-                <button onclick="timeFrame(this)" value="month_data">Monthly</button>
-            </div>
+            <div id="chart"><canvas id="tempChart" width="300" height="300"></canvas></div>
             <div id="chart"><canvas id="humChart" width="300" height="300"></canvas></div>
             <div id="chart"><canvas id="presChart" width="300" height="300"></canvas></div>
             <div id="chart"><canvas id="windChart" width="300" height="300"></canvas></div>
         </div>
             <script>
-                const today_data = {
-                    labels: {{ dates | safe}},
+                var dates = {{ dates | safe }};
+                const today_temp_data = {
+                    labels: dates,
                     datasets: [
                         {
                         label: "Outdoors",
@@ -72,8 +74,7 @@
                         backgroundColor:"rgba(247, 150, 40, 1)"
                         }]
                 };
-
-                const daily_data = {
+                const daily_temp_data = {
                     labels: {{ daily | safe}},
                     datasets: [
                         {
@@ -87,8 +88,7 @@
                         backgroundColor:"rgba(247, 150, 40, 1)"
                         }]
                 };
-
-                const week_data = {
+                const week_temp_data = {
                     labels: {{ week | safe}},
                     datasets: [
                         {
@@ -102,8 +102,7 @@
                         backgroundColor:"rgba(247, 150, 40, 1)"
                         }]
                 };
-
-                const month_data = {
+                const month_temp_data = {
                     labels: {{ month | safe}},
                     datasets: [
                         {
@@ -117,10 +116,9 @@
                         backgroundColor:"rgba(247, 150, 40, 1)"
                         }]
                 };
-
-                const config = {
+                const config_temp = {
                     type: 'line',
-                    data: today_data,
+                    data: today_temp_data,
                     options:{
                         scales: {
                             xAxes: [{
@@ -136,165 +134,270 @@
                         }
                     }
                 };
-
-                const myChart = new Chart(document.getElementById("tempChart").getContext("2d"), config);
-
-                function timeFrame(period){
-                    if(period.value == 'daily_data') {
-                        myChart.config.data = daily_data;
-                    }
-                    if(period.value == 'week_data') {
-                        myChart.config.data = week_data;
-                    }
-                    if(period.value == 'month_data') {
-                        myChart.config.data = month_data;
-                    }
-                    myChart.config.options.scales.xAxes[0].ticks.display = false;
-                    myChart.update();
-                }
-
-
-                // var ctx = document.getElementById("tempChart").getContext("2d");
-                // var tempChart = new Chart(ctx, {
-                //     type: "line",
-                //     data: {
-                //         labels: {{ dates | safe }},
-                //         datasets: [
-                //             {
-                //                 label: "Outdoors",
-                //                 backgroundColor:"rgba(247,237,40, 0.6)",
-                //                 fillColor: "rgba(250,1,1,0.2)",
-                //                 strokeColor: "rgba(250,1,1,0.2)",
-                //                 pointColor: "rgba(250,1,1,0.2)",
-                //                 pointStrokeColor: "#eb0707",
-                //                 pointHighlightFill: "#eb0707",
-                //                 pointHighlightStroke: "rgba(220,220,220,1)",
-                //                 data: {{ wapi_temps | safe }}
-                //             },
-                //             {
-                //                 label: "Indoors",
-                //                 backgroundColor:"rgba(247, 150, 40, 1)",
-                //                 fillColor: "rgba(151,187,205,0.2)",
-                //                 strokeColor: "rgba(151,187,205,1)",
-                //                 pointColor: "rgba(151,187,205,1)",
-                //                 pointStrokeColor: "#fff",
-                //                 pointHighlightFill: "#fff",
-                //                 pointHighlightStroke: "rgba(151,187,205,1)",
-                //                 data: {{ bme_temps | safe }}
-                //             }
-                //         ]
-                //     },
-                //     options: {
-                //         responsive: false,
-                //         title: {
-                //             display: true,
-                //             text: "Temperature (℃)"
-                //         },
-                //     }
-                // });
-                var ctx = document.getElementById("humChart").getContext("2d");
-                var humChart = new Chart(ctx, {
-                    type: "line",
-                    data: {
-                        labels: {{ dates | safe }},
-                        datasets: [
-                            {
-                                label: "Outdoors",
-                                backgroundColor:"rgba(22, 150, 247, 1)",
-                                fillColor: "rgba(220,220,220,0.2)",
-                                strokeColor: "rgba(220,220,220,1)",
-                                pointColor: "rgba(220,220,220,1)",
-                                pointStrokeColor: "#fff",
-                                pointHighlightFill: "#fff",
-                                pointHighlightStroke: "rgba(220,220,220,1)",
-                                data: {{ wapi_hums | safe }}
-                            },
-                            {
-                                label: "Indoors",
-                                backgroundColor:"rgba(74, 173, 247, 0.6)",
-                                fillColor: "rgba(151,187,205,0.2)",
-                                strokeColor: "rgba(151,187,205,1)",
-                                pointColor: "rgba(151,187,205,1)",
-                                pointStrokeColor: "#fff",
-                                pointHighlightFill: "#fff",
-                                pointHighlightStroke: "rgba(151,187,205,1)",
-                                data: {{ bme_hums | safe }}
-                            }
-                        ]
-                    },
-                    options: {
+                const myTempChart = new Chart(document.getElementById("tempChart").getContext("2d"),config_temp);
+                
+                const today_hum_data = {
+                    labels: dates,
+                    datasets: [
+                        {
+                        label: "Outdoors",
+                        data: {{ wapi_hums | safe }},
+                        backgroundColor: "rgba(22, 150, 247, 1)"
+                        },
+                        {
+                        label: "Indoors",
+                        data: {{ bme_hums | safe }},
+                        backgroundColor:"rgba(74, 173, 247, 0.6)"
+                        }]
+                };
+                const daily_hum_data = {
+                    labels: {{ daily | safe }},
+                    datasets: [
+                        {
+                        label: "Outdoors",
+                        data: {{ daily_wapi_hum_avgs | safe }},
+                        backgroundColor: "rgba(22, 150, 247, 1)"
+                        },
+                        {
+                        label: "Indoors",
+                        data: {{ daily_bme_hum_avgs | safe }},
+                        backgroundColor:"rgba(74, 173, 247, 0.6)"
+                        }]
+                };
+                const week_hum_data = {
+                    labels: {{ week | safe }},
+                    datasets: [
+                        {
+                        label: "Outdoors",
+                        data: {{ week_wapi_hum_avg | safe }},
+                        backgroundColor:"rgba(22, 150, 247, 1)"
+                        },
+                        {
+                        label: "Indoors",
+                        data: {{ week_bme_hum_avg | safe }},
+                        backgroundColor:"rgba(74, 173, 247, 0.6)"
+                        }]
+                };
+                const month_hum_data = {
+                    labels: {{ month | safe }},
+                    datasets: [
+                        {
+                        label: "Outdoors",
+                        data: {{ month_wapi_hum_avg | safe }},
+                        backgroundColor:"rgba(22, 150, 247, 1)"
+                        },
+                        {
+                        label: "Indoors",
+                        data: {{ month_bme_hum_avg | safe }},
+                        backgroundColor:"rgba(74, 173, 247, 0.6)"
+                        }]
+                };
+                const config_hum = {
+                    type: 'line',
+                    data: today_hum_data,
+                    options:{
+                        scales: {
+                            xAxes: [{
+                                ticks: {
+                                    display: true
+                                }
+                            }]
+                        },
                         responsive: false,
                         title: {
                             display: true,
                             text: "Humidity (%)"
-                        },
+                        }
                     }
-                });
-                var ctx = document.getElementById("presChart").getContext("2d");
-                var presChart = new Chart(ctx, {
-                    type: "line",
-                    data: {
-                        labels: {{ dates | safe }},
-                        datasets: [
-                            {
-                                label: "Sea Level",
-                                backgroundColor:"rgba(131, 222, 27, 0.6)",
-                                fillColor: "rgba(220,220,220,0.2)",
-                                strokeColor: "rgba(220,220,220,1)",
-                                pointColor: "rgba(220,220,220,1)",
-                                pointStrokeColor: "#fff",
-                                pointHighlightFill: "#fff",
-                                pointHighlightStroke: "rgba(220,220,220,1)",
-                                data: {{ wapi_pres | safe }}
-                            },
-                            {
-                                label: "Indoors",
-                                backgroundColor:"rgba(103, 191, 2, 1)",
-                                fillColor: "rgba(151,187,205,0.2)",
-                                strokeColor: "rgba(151,187,205,1)",
-                                pointColor: "rgba(151,187,205,1)",
-                                pointStrokeColor: "#fff",
-                                pointHighlightFill: "#fff",
-                                pointHighlightStroke: "rgba(151,187,205,1)",
-                                data: {{ bme_pres | safe }}
-                            }
-                        ]
-                    },
-                    options: {
+                };
+                const myHumChart = new Chart(document.getElementById("humChart").getContext("2d"),config_hum);
+
+                const today_pres_data = {
+                    labels: dates,
+                    datasets: [
+                        {
+                            label: "Sea Level",
+                            data: {{ wapi_pres | safe }},
+                            backgroundColor:"rgba(131, 222, 27, 0.6)",
+                        },
+                        {
+                            label: "Indoors",
+                            data: {{ bme_pres | safe }},
+                            backgroundColor:"rgba(103, 191, 2, 1)",
+                        }
+                    ]
+                };
+                const daily_pres_data = {
+                    labels: {{ daily | safe }},
+                    datasets: [
+                        {
+                            label: "Sea Level",
+                            data: {{ daily_wapi_pres_avgs | safe }},
+                            backgroundColor:"rgba(131, 222, 27, 0.6)",
+                        },
+                        {
+                            label: "Indoors",
+                            data: {{ daily_bme_pres_avgs | safe }},
+                            backgroundColor:"rgba(103, 191, 2, 1)",
+                        }
+                    ]
+                };
+                const week_pres_data = {
+                    labels: {{ week | safe }},
+                    datasets: [
+                        {
+                            label: "Sea Level",
+                            data: {{ week_wapi_pres_avg | safe }},
+                            backgroundColor:"rgba(131, 222, 27, 0.6)",
+                        },
+                        {
+                            label: "Indoors",
+                            data: {{ week_bme_pres_avg | safe }},
+                            backgroundColor:"rgba(103, 191, 2, 1)",
+                        }
+                    ]
+                };
+                const month_pres_data = {
+                    labels: {{ month | safe }},
+                    datasets: [
+                        {
+                            label: "Sea Level",
+                            data: {{ month_wapi_pres_avg | safe }},
+                            backgroundColor:"rgba(131, 222, 27, 0.6)",
+                        },
+                        {
+                            label: "Indoors",
+                            data: {{ month_bme_pres_avg | safe }},
+                            backgroundColor:"rgba(103, 191, 2, 1)",
+                        }
+                    ]
+                };
+                const config_pres = {
+                    type: 'line',
+                    data: today_pres_data,
+                    options:{
+                        scales: {
+                            xAxes: [{
+                                ticks: {
+                                    display: true
+                                }
+                            }]
+                        },
                         responsive: false,
                         title: {
                             display: true,
                             text: "Pressure (hPa)"
-                        },
+                        }
                     }
-                });
-                var ctx = document.getElementById("windChart").getContext("2d");
-                var windChart = new Chart(ctx, {
-                    type: "line",
-                    data: {
-                        labels: {{ dates | safe }},
-                        datasets: [
-                            {
-                                label: "Wind Speed",
-                                backgroundColor:"rgba(102, 102, 102, 0.8)",
-                                fillColor: "rgba(220,220,220,0.2)",
-                                strokeColor: "rgba(220,220,220,1)",
-                                pointColor: "rgba(220,220,220,1)",
-                                pointStrokeColor: "#fff",
-                                pointHighlightFill: "#fff",
-                                pointHighlightStroke: "rgba(220,220,220,1)",
-                                data: {{ wapi_winds | safe }}
-                            }
-                        ]
-                    },
-                    options: {
+                };
+                const myPresChart = new Chart(document.getElementById("presChart").getContext("2d"),config_pres);
+
+                const today_wind_data = {
+                    labels: dates,
+                    datasets: [
+                        {
+                            label: "Wind Speed",
+                            data: {{ wapi_winds | safe }},
+                            backgroundColor:"rgba(102, 102, 102, 0.8)",
+                        }
+                    ]
+                };
+                const daily_wind_data = {
+                    labels: {{ daily | safe }},
+                    datasets: [
+                        {
+                            label: "Wind Speed",
+                            data: {{ daily_wind_maxs | safe }},
+                            backgroundColor:"rgba(102, 102, 102, 0.8)",
+                        }
+                    ]
+                };
+                const week_wind_data = {
+                    labels: {{ week | safe }},
+                    datasets: [
+                        {
+                            label: "Wind Speed",
+                            data: {{ week_wapi_wind | safe }},
+                            backgroundColor:"rgba(102, 102, 102, 0.8)",
+                        }
+                    ]
+                };
+                const month_wind_data = {
+                    labels: {{ month | safe }},
+                    datasets: [
+                        {
+                            label: "Wind Speed",
+                            data: {{ month_wapi_wind_max | safe }},
+                            backgroundColor:"rgba(102, 102, 102, 0.8)",
+                        }
+                    ]
+                };
+                const config_wind = {
+                    type: 'line',
+                    data: today_wind_data,
+                    options:{
+                        scales: {
+                            xAxes: [{
+                                ticks: {
+                                    display: true
+                                }
+                            }]
+                        },
                         responsive: false,
                         title: {
                             display: true,
                             text: "Wind (Km/h)"
-                        },
+                        }
                     }
-                });
+                };
+                const myWindChart = new Chart(document.getElementById("windChart").getContext("2d"),config_wind);
+                
+                function timeFrame(period){
+                    if(period.value == 'today_data') {
+                        myTempChart.config.data = today_temp_data;
+                        myHumChart.config.data = today_hum_data;
+                        myPresChart.config.data = today_pres_data;
+                        myWindChart.config.data = today_wind_data;
+                        myTempChart.config.options.scales.xAxes[0].ticks.display = true;
+                        myHumChart.config.options.scales.xAxes[0].ticks.display = true;
+                        myPresChart.config.options.scales.xAxes[0].ticks.display = true;
+                        myWindChart.config.options.scales.xAxes[0].ticks.display = true;
+                    }
+                    if(period.value == 'daily_data') {
+                        myTempChart.config.data = daily_temp_data;
+                        myHumChart.config.data = daily_hum_data;
+                        myPresChart.config.data = daily_pres_data;
+                        myWindChart.config.data = daily_wind_data;
+                        myTempChart.config.options.scales.xAxes[0].ticks.display = false;
+                        myHumChart.config.options.scales.xAxes[0].ticks.display = false;
+                        myPresChart.config.options.scales.xAxes[0].ticks.display = false;
+                        myWindChart.config.options.scales.xAxes[0].ticks.display = false;
+                    }
+                    if(period.value == 'week_data') {
+                        myTempChart.config.data = week_temp_data;
+                        myHumChart.config.data = week_hum_data;
+                        myPresChart.config.data = week_pres_data;
+                        myWindChart.config.data = week_wind_data;
+                        myTempChart.config.options.scales.xAxes[0].ticks.display = false;
+                        myHumChart.config.options.scales.xAxes[0].ticks.display = false;
+                        myPresChart.config.options.scales.xAxes[0].ticks.display = false;
+                        myWindChart.config.options.scales.xAxes[0].ticks.display = false;
+                    }
+                    if(period.value == 'month_data') {
+                        myTempChart.config.data = month_temp_data;
+                        myHumChart.config.data = month_hum_data;
+                        myPresChart.config.data = month_pres_data;
+                        myWindChart.config.data = month_wind_data;
+                        myTempChart.config.options.scales.xAxes[0].ticks.display = false;
+                        myHumChart.config.options.scales.xAxes[0].ticks.display = false;
+                        myPresChart.config.options.scales.xAxes[0].ticks.display = false;
+                        myWindChart.config.options.scales.xAxes[0].ticks.display = false;
+                    }
+                    [myTempChart, myHumChart, myPresChart, myWindChart].forEach(chart => {
+                            chart.update();
+                        });
+                }
+
             </script>
     </body>
 </html>
