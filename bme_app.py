@@ -30,12 +30,12 @@ def parse_db():
 
 def getHistData(numSamples):
     try:
-        curs.execute("SELECT * FROM weather_data ORDER BY timestamp DESC LIMIT "+str(numSamples))
+        curs.execute("SELECT * FROM weather_data WHERE timestamp LIKE '%:00:%' ORDER BY timestamp DESC LIMIT "+str(numSamples))
         data = curs.fetchall()
     except:
         conn = sqlite3.connect(db_file, check_same_thread=False)
         curs = conn.cursor()
-        curs.execute("SELECT * FROM weather_data ORDER BY timestamp DESC LIMIT "+str(numSamples))
+        curs.execute("SELECT * FROM weather_data WHERE timestamp LIKE '%:00:%' ORDER BY timestamp DESC LIMIT "+str(numSamples))
         data = curs.fetchall()
     dates = []
     wapi_temps = []
@@ -58,7 +58,7 @@ def getHistData(numSamples):
     return dates, wapi_temps, bme_temps, wapi_hums, bme_hums, wapi_pres, bme_pres, wapi_winds
 
 def maxRowsTable():
-	for row in curs.execute("select COUNT(wapi_temp) from  weather_data"):
+	for row in curs.execute("select COUNT(timestamp) from  weather_data"):
 		maxNumberRows=row[0]
 	return maxNumberRows
 
