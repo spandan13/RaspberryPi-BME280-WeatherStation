@@ -16,8 +16,8 @@
     </head>
     <body>
         <h1>{{server_name}} - Weather Station</h1>
-        <p id="info_text">Outdoor data via WeatherAPI</p>
-        <p id="info_text">Indoor data via BME280 Sensor</p><br>
+        <p class="info_text">Outdoor data via WeatherAPI</p>
+        <p class="info_text">Indoor data via BME280 Sensor</p><br>
         <p id="section">Current Stats</p>
         <div class="main">
             <div id="temperature" class="stats">
@@ -46,6 +46,7 @@
             </div>
         </div>
         <p id="section">Historical Data</p>
+        <p id="hist_stat" class="info_text">Showing Last 12 Hours</p>
         <div id="histButtons">
             <button onclick="timeFrame(this)" value="today_data">Today</button>
             <button onclick="timeFrame(this)" value="daily_data">Daily</button>
@@ -194,6 +195,7 @@
                 const myWindChart = new Chart(document.getElementById("windChart").getContext("2d"),config_wind);
                 
                 function timeFrame(period){
+                    var info_text = document.getElementById("hist_stat");
                     if(period.value == 'today_data') {
                         myTempChart.config.data.datasets[0].data = {{ wapi_temps | safe }};
                         myTempChart.config.data.datasets[1].data = {{ bme_temps | safe }};
@@ -202,6 +204,7 @@
                         myPresChart.config.data.datasets[0].data = {{ wapi_pres | safe }};
                         myPresChart.config.data.datasets[1].data = {{ bme_pres | safe }};
                         myWindChart.config.data.datasets[0].data = {{ wapi_winds | safe }};
+                        info_text.innerHTML = "Showing Last 12 Hours";
                         [myTempChart, myHumChart, myPresChart, myWindChart].forEach(chart => {
                             chart.config.data.labels = dates;
                             chart.config.options.scales.xAxes[0].ticks.display = true;
@@ -215,6 +218,7 @@
                         myPresChart.config.data.datasets[0].data = {{ daily_wapi_pres_avgs | safe }};
                         myPresChart.config.data.datasets[1].data = {{ daily_bme_pres_avgs | safe }};
                         myWindChart.config.data.datasets[0].data = {{ daily_wind_maxs | safe }};
+                        info_text.innerHTML = "Showing Average, Last 7 Days";
                         [myTempChart, myHumChart, myPresChart, myWindChart].forEach(chart => {
                             chart.config.data.labels = {{ daily | safe }};
                             chart.config.options.scales.xAxes[0].ticks.display = false;
@@ -228,6 +232,7 @@
                         myPresChart.config.data.datasets[0].data = {{ week_wapi_pres_avg | safe }};
                         myPresChart.config.data.datasets[1].data = {{ week_bme_pres_avg | safe }};
                         myWindChart.config.data.datasets[0].data = {{ week_wapi_wind | safe }};
+                        info_text.innerHTML = "Showing Average, Last 5 Weeks";
                         [myTempChart, myHumChart, myPresChart, myWindChart].forEach(chart => {
                             chart.config.data.labels = {{ week | safe}};
                             chart.config.options.scales.xAxes[0].ticks.display = false;
@@ -241,6 +246,7 @@
                         myPresChart.config.data.datasets[0].data = {{ month_wapi_pres_avg | safe }};
                         myPresChart.config.data.datasets[1].data = {{ month_bme_pres_avg | safe }};
                         myWindChart.config.data.datasets[0].data = {{ month_wapi_wind_max | safe }};
+                        info_text.innerHTML = "Showing Average, Last 12 Months";
                         [myTempChart, myHumChart, myPresChart, myWindChart].forEach(chart => {
                             chart.config.data.labels = {{ month | safe}};
                             chart.config.options.scales.xAxes[0].ticks.display = false;

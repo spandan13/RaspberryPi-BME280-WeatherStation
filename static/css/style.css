@@ -11,7 +11,7 @@ h1 {
     margin-bottom: 5px;
 }
 
-#info_text {
+.info_text {
     text-align: center;
     margin: auto;
     font-size: 15px;
@@ -103,6 +103,11 @@ canvas {
 #histButtons {
     text-align: center;
     padding-top: 5px;
+    padding-bottom: 10px;
+}
+
+#hist_stat {
+    font-size: 20px;
     padding-bottom: 10px;
 }
 
